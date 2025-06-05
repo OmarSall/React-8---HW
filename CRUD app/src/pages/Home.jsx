@@ -1,44 +1,37 @@
-import {useGetArticlesQuery, useDeleteArticleMutation} from "../api/api"
-import {useState, useCallback} from "react";
-import ArticlesList from "../components/ArticlesList"
+import { useGetArticlesQuery } from "../api/api";
+import ArticlesList from "../components/ArticlesList";
 import ArticleForm from "../components/ArticleForm";
 import Modal from "../components/Modal";
+import styles from "./Home.module.css";
+
+import { useArticlesManager } from "../hooks/useArticlesManager";
+import { useModalArticleForm } from "../hooks/useModalArticleForm";
+import { useDeleteArticleHandler } from "../hooks/useDeleteArticleHandler";
 
 function Home() {
     const {
         data: articles = [],
         error,
         isLoading,
-        refetch,
-    } = useGetArticlesQuery()
-    const [deleteArticle, {isLoading: isDeleting}] = useDeleteArticleMutation();
-    const [editingArticle, setEditingArticle] = useState(null);
+    } = useGetArticlesQuery();
 
-    const openAddModal = useCallback(() =>
-        setEditingArticle(null), []);
-    const openEditModal = useCallback((article) =>
-        setEditingArticle(article), []);
-    const closeModal = useCallback(() =>
-        setEditingArticle(null), []);
+    const {
+        searchTerm,
+        sortOrder,
+        handleSearchChange,
+        handleSortChange,
+        filteredSortedArticles,
+    } = useArticlesManager(articles);
 
-    const handleDelete = useCallback(
-        async (id) => {
-            if (window.confirm("Are you sure you want to delete this article?")) {
-                try {
-                    await deleteArticle(id).unwrap();
-                    refetch();
-                } catch (error) {
-                    alert("Failed to delete the article.");
-                    console.error(error);
-                }
-            }
-        },
-        [deleteArticle, refetch]
-    );
+    const {
+        editingArticle,
+        openAddModal,
+        openEditModal,
+        closeModal,
+        handleFormSuccess,
+    } = useModalArticleForm();
 
-    const handleFormSuccess = useCallback(() => {
-        closeModal();
-    }, [closeModal, refetch]);
+    const { handleDelete, isDeleting } = useDeleteArticleHandler();
 
     if (isLoading) {
         return <p>Loading...</p>
@@ -49,11 +42,30 @@ function Home() {
     }
 
     return (
-        <div>
+        <div className="container">
             <h1>Articles</h1>
+            <div className={"styles.controls"}>
+                <input
+                    type="text"
+                    placeholder="Search by title or content"
+                    value={searchTerm}
+                    onChange={handleSearchChange}
+                    className={styles.searchInput}
+                    aria-label="Search articles"
+                />
+                <select
+                    value={sortOrder}
+                    onChange={handleSortChange}
+                    className={styles.sortSelect}
+                    aria-label="Sort articles by content length"
+                >
+                    <option value="asc">Sort by content length: ASC</option>
+                    <option value="desc">Sort by content length: DESC</option>
+                </select>
+            </div>
             <button onClick={openAddModal}>Add Article</button>
             <ArticlesList
-                articles={articles}
+                articles={filteredSortedArticles}
                 onEdit={openEditModal}
                 onDelete={handleDelete}
             />
@@ -62,6 +74,11 @@ function Home() {
                     <ArticleForm
                         initialData={editingArticle}
                         onSuccess={handleFormSuccess}
+                        onDelete={async (id) => {
+                            await handleDelete(id);
+                            closeModal();
+                        }}
+                        isDeleting={isDeleting}
                     />
                 </Modal>
             )}

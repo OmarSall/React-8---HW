@@ -9,7 +9,7 @@ function ArticlesList({articles, onEdit, onDelete}) {
                     key={article.id}
                     article={article}
                     onEdit={onEdit}
-                    onDelete={onDelete}
+                    onDelete={() => onDelete(article.id)}
                 />
             ))}
         </div>
