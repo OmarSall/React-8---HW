@@ -1,12 +1,12 @@
-import { useGetArticlesQuery } from "../api/api";
+import {useGetArticlesQuery} from "../api/api";
 import ArticlesList from "../components/ArticlesList";
 import ArticleForm from "../components/ArticleForm";
 import Modal from "../components/Modal";
 import styles from "./Home.module.css";
 
-import { useArticlesManager } from "../hooks/useArticlesManager";
-import { useModalArticleForm } from "../hooks/useModalArticleForm";
-import { useDeleteArticleHandler } from "../hooks/useDeleteArticleHandler";
+import {useArticlesManager} from "../hooks/useArticlesManager";
+import {useModalArticleForm} from "../hooks/useModalArticleForm";
+import {useDeleteArticleHandler} from "../hooks/useDeleteArticleHandler";
 
 function Home() {
     const {
@@ -31,7 +31,7 @@ function Home() {
         handleFormSuccess,
     } = useModalArticleForm();
 
-    const { handleDelete, isDeleting } = useDeleteArticleHandler();
+    const {handleDelete, isDeleting} = useDeleteArticleHandler();
 
     if (isLoading) {
         return <p>Loading...</p>

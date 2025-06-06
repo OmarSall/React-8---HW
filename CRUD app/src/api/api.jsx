@@ -46,7 +46,6 @@ export default api;
 
 export const {
     useGetArticlesQuery,
-    useGetArticleByIdQuery,
     useCreateArticleMutation,
     useUpdateArticleMutation,
     useDeleteArticleMutation,

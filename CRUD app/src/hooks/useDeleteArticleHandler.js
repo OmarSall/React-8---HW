@@ -2,7 +2,7 @@ import {useCallback} from "react";
 import {useDeleteArticleMutation} from "../api/api";
 
 export function useDeleteArticleHandler() {
-    const [deleteArticle, { isLoading: isDeleting }] = useDeleteArticleMutation();
+    const [deleteArticle, {isLoading: isDeleting}] = useDeleteArticleMutation();
 
     const handleDelete = useCallback(
         async (id) => {
@@ -18,5 +18,5 @@ export function useDeleteArticleHandler() {
         [deleteArticle]
     );
 
-    return {handleDelete, isDeleting };
+    return {handleDelete, isDeleting};
 }

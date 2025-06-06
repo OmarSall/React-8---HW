@@ -1,7 +1,7 @@
 import styles from "./ArticleCard.module.css"
 
 function ArticleCard({article, onEdit, onDelete}) {
-    const { title, content } = article;
+    const {title, content} = article;
 
     return (
         <div className={styles.card}>
