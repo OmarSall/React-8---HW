@@ -1,0 +1,61 @@
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fafafa;
+    color: black;
+}
+
+input,
+textarea {
+    font-size: 1rem;
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    resize: vertical;
+    transition: border-color 0.3s ease;
+}
+
+input:focus,
+textarea:focus {
+    border-color: #0077ff;
+    outline: none;
+}
+
+button {
+    padding: 0.6rem 1.2rem;
+    font-size: 1rem;
+    background-color: #0077ff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:disabled {
+    background-color: #999;
+    cursor: not-allowed;
+}
+
+.deleteButton {
+    margin-top: 0.5rem;
+    background-color: #ff4d4d;
+}
+
+.deleteButton:hover:not(:disabled) {
+    background-color: #cc0000;
+}
+
+.error {
+    color: #d8000c;
+    background-color: #ffbaba;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-weight: 600;
+}
